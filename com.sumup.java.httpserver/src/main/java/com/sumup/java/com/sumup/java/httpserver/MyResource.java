@@ -2,7 +2,6 @@ package com.sumup.java.com.sumup.java.httpserver;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URI;
@@ -10,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import javax.servlet.ServletException;
+
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
@@ -27,7 +26,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.simple.parser.ParseException;
 
-@Path("myresource")
+@Path("/myresource")
 public class MyResource {
 	private static final String PATH_SCRIPT = "C:\\Users\\Rosen Todorov\\Desktop\\script.sh";
 	private static final String OCTETSTREAM = "application/octet-stream";
@@ -38,12 +37,13 @@ public class MyResource {
 	private static final String COMMAND = "command";
 	private static final String TASKS = "tasks";
 	private static final char NEW_LINE = '\n';
+	
 
 	@POST
 	@Path("/tasks")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response post(String jsonRequest, @Context UriInfo uriInfo) throws JSONException, ParseException {
+	public Response createTask(String jsonRequest, @Context UriInfo uriInfo) throws JSONException, ParseException {
 		JSONObject jsonObject = new JSONObject(jsonRequest);
 
 		JSONArray allTasksArray = jsonObject.getJSONArray(TASKS);
@@ -128,7 +128,7 @@ public class MyResource {
 
 	@POST
 	@Path("/script")
-	public void postCreateScript(@Context HttpServletResponse response, String jsonRequest, @Context UriInfo uriInfo)throws IOException {	
+	public void createScript(@Context HttpServletResponse response, String jsonRequest, @Context UriInfo uriInfo)throws IOException {	
 		try {
 			createFile(jsonRequest);
 		} catch (JSONException e1) {
